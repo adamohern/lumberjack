@@ -1,13 +1,12 @@
 # python
 
+from random import randint
 import lx, lxifc, traceback
 import json
 from TreeNode import TreeNode
 from TreeView import TreeView
-from TreeView import DROPSERVERUNIQUEKEY
-from TreeView import DROPSOURCE_COMMAND
-from TreeView import DROP_SERVER
 
+DROPSERVERUNIQUEKEY = 0
 
 class DropServer(lxifc.Drop):
 
@@ -339,7 +338,12 @@ class Lumberjack(object):
 
         config_name = internal_name
         server_username = internal_name
+        dropserver_username = internal_name + "_dropserver"
+        dropsource_command = internal_name + "_dropCmd"
         server_name = internal_name
+
+        global DROPSERVERUNIQUEKEY
+        DROPSERVERUNIQUEKEY = randint(100000, 999999)
 
         sTREEVIEW_TYPE = " ".join((
             viewport_type,
@@ -361,7 +365,7 @@ class Lumberjack(object):
         }
 
         drop_server_tags = {
-            lx.symbol.sDROP_SOURCETYPE: DROPSOURCE_COMMAND,
+            lx.symbol.sDROP_SOURCETYPE: dropsource_command,
             lx.symbol.sDROP_ACTIONNAMES : "1@moveAction"
         }
 
@@ -373,7 +377,7 @@ class Lumberjack(object):
             # Make sure it doesn't happen again.
             Lumberjack._blessed = True
 
-            lx.bless(Lumberjack._DropServer, DROP_SERVER, drop_server_tags)
+            lx.bless(Lumberjack._DropServer, dropserver_username, drop_server_tags)
 
         except:
             traceback.print_exc()

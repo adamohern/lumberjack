@@ -3,11 +3,6 @@
 import lxifc, lx
 import json
 
-DROPSOURCE_COMMAND = "replay_command"
-DROP_SERVER = "replay_dropserver"
-DROPSERVERUNIQUEKEY = "118319"
-
-
 class TreeView( lxifc.TreeView,
                 lxifc.Tree,
                 lxifc.ListenerPort,

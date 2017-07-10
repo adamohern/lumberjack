@@ -55,8 +55,7 @@ BourbonTree().bless(
     #                         Don't use it.
 
     input_regions = [
-        '(anywhere)', # 0 is reserved ".anywhere" region index
-        'clickable_region_name'
+        '(anywhere)' # 0 is reserved ".anywhere" region index
     ],
 
     # :param notifiers:       Returns a list of notifier tuples for auto-updating the tree. Optional.
