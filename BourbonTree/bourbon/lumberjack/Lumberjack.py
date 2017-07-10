@@ -6,8 +6,6 @@ import json
 from TreeNode import TreeNode
 from TreeView import TreeView
 
-DROPSERVERUNIQUEKEY = 0
-
 class DropServer(lxifc.Drop):
 
     def drop_ActionList(self, source, dest, addDropAction):
@@ -74,7 +72,8 @@ class DropServer(lxifc.Drop):
 
     @classmethod
     def check_key(cls, va):
-        if va.Count() > 1 and va.GetString(0) == DROPSERVERUNIQUEKEY:
+        lumberjack = Lumberjack.final_class()
+        if va.Count() > 1 and va.GetString(0) == lumberjack._drop_server_unique_key:
             return True
         return False
 
@@ -192,9 +191,13 @@ class Lumberjack(object):
     _nice_name = ""
     _viewport_type = ""
     _primary = None
+    _on_bless = None
     final_class = None
+    _drop_server_unique_key = None
+    _dropserver_username = None
+    _dropsource_command = None
 
-    def __init__(self):
+    def __init__(self, **kwargs):
         """A lumberjack class is a self-contained model-view-controller system.
 
         It maintains:
@@ -203,8 +206,8 @@ class Lumberjack(object):
 
         The TreeNode object is the data model, the TreeView is the view model,
         and the lumberjack object acts as controller."""
-
-        pass
+        if 'on_bless' in kwargs:
+            self.__class__._on_bless = kwargs['on_bless']
 
     # In case you need to extend the TreeNode class, you can inherit TreeNode in
     # your own class and then tell your Lumberjack Object to use it by overwriting this method
@@ -315,6 +318,10 @@ class Lumberjack(object):
             column_definitions = column_definitions.get('list', []),
             controller = cls()
         )
+        
+        cls._drop_server_unique_key = internal_name + str(randint(100000, 999999))
+        cls._dropserver_username = internal_name + "_dropserver"
+        cls._dropsource_command = internal_name + "_dropCmd"
 
         # Our internal handle for the view itself.
         Lumberjack._tree_view = Lumberjack._TreeViewSubclass(
@@ -338,14 +345,7 @@ class Lumberjack(object):
 
         config_name = internal_name
         server_username = internal_name
-        dropserver_username = internal_name + "_dropserver"
-        dropsource_command = internal_name + "_dropCmd"
         server_name = internal_name
-
-        # TODO do we really need a global variable here?
-        global DROPSERVERUNIQUEKEY
-        DROPSERVERUNIQUEKEY = randint(100000, 999999)
-        #
 
         sTREEVIEW_TYPE = " ".join((
             viewport_type,
@@ -367,7 +367,7 @@ class Lumberjack(object):
         }
 
         drop_server_tags = {
-            lx.symbol.sDROP_SOURCETYPE: dropsource_command,
+            lx.symbol.sDROP_SOURCETYPE: cls._dropsource_command,
             lx.symbol.sDROP_ACTIONNAMES : "1@moveAction"
         }
 
@@ -379,11 +379,14 @@ class Lumberjack(object):
             # Make sure it doesn't happen again.
             Lumberjack._blessed = True
 
-            lx.bless(Lumberjack._DropServer, dropserver_username, drop_server_tags)
+            lx.bless(Lumberjack._DropServer, cls._dropserver_username, drop_server_tags)
 
         except:
             traceback.print_exc()
             raise Exception('Unable to bless %s.' % cls.__name__)
+
+        if cls._on_bless is not None:
+            cls._on_bless(cls())
 
     @property
     def root(self):

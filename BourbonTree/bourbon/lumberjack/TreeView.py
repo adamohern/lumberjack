@@ -53,7 +53,6 @@ class TreeView( lxifc.TreeView,
         if 'controller' in kwargs:
             self.__class__._controller = kwargs.get('controller')
 
-
         # Because TreeView() does not inherit `object`, you cannot put a
         # classvariable declaration outside of __init__() without affecting all
         # subclasses.
@@ -316,7 +315,8 @@ class TreeView( lxifc.TreeView,
         elif mode == lx.symbol.iTREEVIEW_SELECT_CLEAR:
             self._controller.clear_selection()
 
-        self._controller.select_event_treeview()
+        if hasattr(self._controller, 'select_event_treeview'):
+            self._controller.select_event_treeview()
 
     def treeview_CellCommand(self, columnIndex):
         """Cells can contain commands similar to Forms, and this is especially
@@ -427,7 +427,7 @@ class TreeView( lxifc.TreeView,
         if columnIndex != 0:
             return ""
         if all(node.draggable() for node in self._root.selected_descendants):
-            return DROPSOURCE_COMMAND
+            return self.__class__._controller._dropsource_command
         else:
             return ""
 
@@ -435,7 +435,7 @@ class TreeView( lxifc.TreeView,
         if columnIndex != 0:
             return None
 
-        if type != DROPSOURCE_COMMAND:
+        if type != self.__class__._controller._dropsource_command:
             return None
 
         # Create a string value object.
@@ -447,7 +447,7 @@ class TreeView( lxifc.TreeView,
         va.set(vaQuery)
 
         # Add unique key
-        va.AddString(DROPSERVERUNIQUEKEY)
+        va.AddString(self.__class__._controller._drop_server_unique_key)
 
         # Add selected children indices
         for child in self._root.selected_descendants:
@@ -472,7 +472,7 @@ class TreeView( lxifc.TreeView,
         va.set(vaQuery)
 
         # Add unique key
-        va.AddString(DROPSERVERUNIQUEKEY)
+        va.AddString(self.__class__._controller._drop_server_unique_key)
 
         # Add target index
         if location == 2:
