@@ -342,8 +342,10 @@ class Lumberjack(object):
         dropsource_command = internal_name + "_dropCmd"
         server_name = internal_name
 
+        # TODO do we really need a global variable here?
         global DROPSERVERUNIQUEKEY
         DROPSERVERUNIQUEKEY = randint(100000, 999999)
+        #
 
         sTREEVIEW_TYPE = " ".join((
             viewport_type,
