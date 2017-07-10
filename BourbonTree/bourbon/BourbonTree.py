@@ -1,6 +1,6 @@
 # python
 
-import lumberjack
+from bourbon import lumberjack
 
 class BourbonTree(lumberjack.Lumberjack):
     pass

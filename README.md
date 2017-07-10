@@ -3,36 +3,22 @@
 
 Lumberjack makes tree views in MODO much quicker, easier, and more robust. It can build full-featured tree views with icons, text formatting, drag-and-drop reordering, attribute nodes that show up under a (+) plus sign in the tree, and any parent/child tree structure using the normal (>) carrot twirl icon.
 
-The Replay UI is a good example of a Lumberjack tree view in action.
-
-Tree views in MODO are complex and highly technical. Lumberjack tries to make them simpler to work with--thus decreasing the risk of common errors and crashes--but that complexity can't be removed entirely. 
-
-With good boilerplate, you should be up and running fairly quickly.
-
 # Quickstart
 
-A quickstart kit is included in the lumberjack distribution code. Simply install this kit in your MODO search path, and a placeholder tree will be installed.
+1. Install the `BourbonTree` kit in your MODO search path.
+2. Start MODO and run `bourbon.add` in the command line. Hit `enter` to accept the default values.
 
-1. Add the lumberjack package to an import directory in your kit.
+The tree should be populated with the newly-added values.
 
-1. Create a subclass that imports `Lumberjack`.
+# Overview
 
-```
-class MyLumberjackSubclass(lumberjack.Lumberjack):
-    pass
-```
+The BourbonTree kit does several things:
 
-2. Bless the treeview using the `Lumberjack.bless()` method. The blessing must be inside an `lxserv` directory in the modo search path. See `examples/MyTreeBlessing.py` for boilerplate.
+- Includes a `bourbon` package that imports the `lumberjack` package. (We always nest `lumberjack` within
+  a kit-specific package to avoid conflicts when multiple kits use lumberjack at the same time.)
 
-3. Your tree view is ready. Open MODO > Layout > Palettes > New Palette. Depending on the `viewport_type` defined in the blessing, your tree view will be listed somewhere in the palette context menu (triangle at top-right of palette).
-
-4. To display actual information in the tree view, you need to:
-- Add a node using `node = MyLumberjackSubclass().add_child()`
-- Populate values for each column in the node using `node.columns[col_name].value = 'hello'`
-- Rebuild the tree GUI using `MyLumberjackSubclass().rebuild_view()` (Note: `refresh_view()` is faster, but only updates cell values, not tree structure.)
-
-Lumberjack is broad and deep. 
-The real power of lumberjack is that you can create subclasses of the TreeNode object, allowing them to behave, display, or store data in novel ways. For example, if you are storing a tree that displays a list of LXO files at the root level, and a list of cameras under each one, you may want to create a different TreeNode subclass for LXO files vs cameras, thus allowing them to behave differently on drag/drop, or store specialized information like a file path for the LXO, or a focal length for each camera.
+- Creates a subclass of `lumberjack.Lumberjack` called `BourbonTree`. (Again, we do this to avoid conflicts,
+  but also to allow for customization of the lumberjack object.)
 
 # Lumberjack Class
 
