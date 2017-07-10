@@ -1,30 +1,30 @@
 # python
 
-import MyLumberjackSubclass
+from bourbon import BourbonTree
 
 
 # In order to be available in the GUI, a treeview needs to be "blessed" (same as
 # MODO commands.) Lumberjack does all of this automatically with a single
 # `bless()` method. It can only be fired once per session.
 
-MyLumberjackSubclass().bless(
+BourbonTree().bless(
 
     # :param viewport_type:   category in the MODO UI popup
     #                         vpapplication, vp3DEdit, vptoolbars, vpproperties, vpdataLists,
     #                         vpinfo, vpeditors, vputility, or vpembedded
-    viewport_type = 'vputility',
+    viewport_type = 'vpinfo',
 
     # :param nice_name:       display name for the treeview in window title bars, etc
     #                         should ideally be a message table lookup '@table@message@'
-    nice_name = 'My Lumberjack Tree',
+    nice_name = 'Bourbon Tree',
 
     # :param internal_name:   name of the treeview server (also used in config files)
     # NOTE: must be unique!
-    internal_name = 'myLumberjackTreeView',
+    internal_name = 'bourbon_tree',
 
     # :param ident:           arbitrary unique four-letter all-caps identifier (ID4)
     # NOTE: must be unique!
-    ident = 'MYLJ',
+    ident = 'BBTR',
 
     # :param column_definitions:    a list of dictionaries, one for each column. Values in each
     #                               node's values dictionary must correspond with these strings
@@ -35,10 +35,10 @@ MyLumberjackSubclass().bless(
                     'name':'name',
                     # negative integers are summed and then divided for relative widths.
                     # in this example, -1 + -3 == -4, so -1/-4 is 25%.
-                    'width':-1
+                    'width':-2
                 }, {
-                    'name':'value',
-                    'width':-3
+                    'name':'price',
+                    'width':-1
                 }
             ]
     },
@@ -56,13 +56,15 @@ MyLumberjackSubclass().bless(
 
     input_regions = [
         '(anywhere)', # 0 is reserved ".anywhere" region index
-        'MyClickableRegionMapping'
+        'clickable_region_name'
     ],
 
     # :param notifiers:       Returns a list of notifier tuples for auto-updating the tree. Optional.
+    #                            [
+    #                                ("select.event", "polygon +ldt"),
+    #                                ("select.event", "item +ldt")
+    #                            ]
 
-    notifiers = [
-                    ("select.event", "polygon +ldt"),
-                    ("select.event", "item +ldt")
-                ]
+    # No notifiers necessary for this example.
+    notifiers = []
 )
