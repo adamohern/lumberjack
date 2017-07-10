@@ -1,5 +1,5 @@
 # Lumberjack
-## A Tree View wrapper for MODO.
+### A Tree View wrapper for MODO.
 
 Lumberjack makes tree views in MODO much quicker, easier, and more robust. It can build full-featured tree views with icons, text formatting, drag-and-drop reordering, attribute nodes that show up under a (+) plus sign in the tree, and any parent/child tree structure using the normal (>) carrot twirl icon.
 
