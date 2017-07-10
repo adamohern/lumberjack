@@ -29,7 +29,7 @@ BourbonTree().bless(
     # :param column_definitions:    a list of dictionaries, one for each column. Values in each
     #                               node's values dictionary must correspond with these strings
     column_definitions = {
-        'primary_position': 0,
+        # 'primary_position': 0,
         'list': [
                 {
                     'name':'name',
