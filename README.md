@@ -6,9 +6,13 @@ Lumberjack makes tree views in MODO much quicker, easier, and more robust. It ca
 # Quickstart
 
 1. Install the `BourbonTree` kit in your MODO search path.
-2. Start MODO and run `bourbon.add` in the command line. Hit `enter` to accept the default values.
+2. Start MODO and run `bourbon.add` in the command line. Hit `enter` to accept the default values. The tree should be populated with the newly-added values.
 
-The tree should be populated with the newly-added values.
+Congratulations! You have a working tree view.
+
+The easiest way to get started with lumberjack is to use the BourbonTree kit as a starting point for your own kit.
+
+If you want to integrate Lumberjack with an existing kit, the Lumberjack python package is in `BourbonTree/bourbon/lumberjack`. (Be sure to nest it inside your own python package, lest your version of Lumberjack conflict with one from a different kit.)
 
 # Overview
 
@@ -17,8 +21,11 @@ The BourbonTree kit does several things:
 - Includes a `bourbon` package that imports the `lumberjack` package. (We always nest `lumberjack` within
   a kit-specific package to avoid conflicts when multiple kits use lumberjack at the same time.)
 
-- Creates a subclass of `lumberjack.Lumberjack` called `BourbonTree`. (Again, we do this to avoid conflicts,
-  but also to allow for customization of the lumberjack object.)
+- Creates a subclass of `lumberjack.Lumberjack` called `BourbonTree`. (Again, we do this to avoid conflicts, but also to allow for customization of the lumberjack object.)
+
+- Blesses `BourbonTree` in `lxserv/bourbon_bless.py`. This is where the details of the treeview are defined.
+
+- Modifies the tree view using `lxserv/bourbon_add.py`. Modifications can be done from anywhere, including the interactive script editor within MODO.
 
 # Lumberjack Class
 
